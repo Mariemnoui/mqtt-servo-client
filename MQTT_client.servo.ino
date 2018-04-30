@@ -6,7 +6,7 @@
 #include <Servo.h> 
 Servo myservo; 
 
-// Update these with values suitable for your network.
+
 
 const char* ssid = "LDV-CPP";
 const char* password = "LDV-LK-C++";
@@ -21,7 +21,7 @@ int value = 0;
 void setup() {
 
   Serial.begin(115200);
-   myservo.attach(2);
+   myservo.attach(2);  // attach your servo to pin D4 
   setup_wifi();
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
@@ -56,15 +56,15 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("] ");
   for (int i = 0; i < length; i++) {
    // Serial.print((char)payload[i]);
-     string+=((char)payload[i]);  
+     string+=((char)payload[i]);  // converting the message received to a string 
   }
   
     Serial.print(string);
 
 if (topic ="servo")   
     Serial.print(" ");
-   int resultado = string.toInt();   
-   int pos = map(resultado, 1, 100, 32, 165);
+   int resultado = string.toInt();   // converting the string to integer 
+   int pos = map(resultado, 1, 100, 32, 165); // converting the integer to an Angle for the servo motor 
    Serial.println(pos);
     myservo.write(pos);
     delay(15); 
